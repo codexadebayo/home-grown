@@ -1,0 +1,52 @@
+.subscription{
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+    background-color: #dda15e;
+    border-radius: 25px;
+    padding-left: 10px;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5px;
+}
+.title{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+.title h1{
+    height: 20px;
+}
+
+.sub-boxes{
+    width: 100%;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+    
+
+}
+.box{
+    display: flex;
+    flex-direction:column ;
+    width: 300px;
+    height: 500px;
+    background: #f1f5f9;
+    border-radius: 10px;
+
+
+}
+
+.box image{
+    width: 290px;
+    height: 100px;
+    object-fit: contain;
+}
+
+/* .sub-mssg {
+    background-color: #bc6c25;
+} */

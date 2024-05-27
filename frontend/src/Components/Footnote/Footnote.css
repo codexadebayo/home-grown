@@ -1,0 +1,10 @@
+.footnote{
+    display: flex;
+}
+
+.footnote ul{
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
