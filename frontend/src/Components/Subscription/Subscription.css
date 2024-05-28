@@ -33,12 +33,11 @@
 .box{
     display: flex;
     flex-direction:column ;
+    justify-content: center;
     width: 300px;
-    height: 500px;
+    height: fit-content;
     background: #f1f5f9;
     border-radius: 10px;
-
-
 }
 
 .box image{
@@ -47,6 +46,25 @@
     object-fit: contain;
 }
 
+.details{
+    padding-left: 5px;
+    height: 160px;
+}
+.price{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+}
+.price button{
+
+    justify-content: center;
+    width: 50%;
+    height: 30px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+    
+}
 /* .sub-mssg {
     background-color: #bc6c25;
 } */

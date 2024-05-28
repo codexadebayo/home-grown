@@ -1,0 +1,50 @@
+.aboutus{
+    display: flex;
+    width: 100%;
+    background-color: #fdbd1280;
+    margin-top: 10px;
+    border: none;
+    border-radius: 25px;
+    padding: 15px;
+
+}
+
+.left{
+    width: 50%;
+    object-fit: contain;
+    padding: 10px;
+}
+
+.left img{
+    width: 90%;
+    border: none;
+    border-radius: 25px;
+}
+
+.right{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 15px;
+
+}
+
+.advabtages{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.advantages div{
+    justify-content: center;
+    align-items: center;
+}
+
+.advantage1{
+    background-color: #0cbdf5;
+    width: 400px;
+    padding: 20px;
+}
+

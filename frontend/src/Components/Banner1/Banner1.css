@@ -3,7 +3,7 @@
   height: 555px;
   background: url("../../assets/aboutfruit.jpg");
   background-size: contain;
-  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
