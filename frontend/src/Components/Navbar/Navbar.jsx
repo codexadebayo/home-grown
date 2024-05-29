@@ -13,13 +13,14 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="logo">
-        <img src={logo} alt="" />
+      <Link style={{textDecoration:'none'}} to='/'>
+        <img src={logo} alt="" /> </Link>
       </div>
       <div>
         <ul className="nav-links">
           <li><Link style={{textDecoration:'none', color:'#ffffff'}} to='/about'>About</Link></li>
           <li>Contact</li>
-          <li>Farmers</li>
+          <li><Link style={{textDecoration:'none', color:'#ffffff'}} to='/farms'>Farms</Link></li>
           <li>Market</li>
         </ul>
       </div>

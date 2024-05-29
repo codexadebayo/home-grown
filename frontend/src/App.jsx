@@ -7,6 +7,7 @@ import Navbar from "./Components/Navbar/Navbar";
 import HomePage from "./Pages/HomePage";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
+import Farms from "./Pages/Farms";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/farms" element={<Farms/>} />
         <Route path="/" element={<HomePage />} />
       </Routes>
       <Footnote />

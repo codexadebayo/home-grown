@@ -25,9 +25,17 @@
     display: flex;
     width: 50%;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     padding-right: 15px;
+    color: #1e1e1e;
 
+}
+.right h1{
+    font-size: 40px;
+    padding: 0px;
+    margin: 0px;
+    color: #1e1e1e;
 }
 
 .advabtages{
@@ -35,16 +43,46 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    padding: 20px;
 }
 
-.advantages div{
-    justify-content: center;
-    align-items: center;
-}
+
 
 .advantage1{
+    background-color: #0cbdf580;
+    width: 400px;
+    padding: 20px;
+    height: 120px;
+    margin: 10px;
+    border: none;
+    border-radius: 25px;
+}
+
+.advantage2{
+    background-color: #0cbdf580;
+    width: 400px;
+    padding: 20px;
+    height: 120px;
+    margin: 10px;
+    border: none;
+    border-radius: 25px;
+}
+.advantage3{
     background-color: #0cbdf5;
     width: 400px;
     padding: 20px;
+    height: 120px;
+    margin: 10px;
+    border: none;
+    border-radius: 25px;
+}
+.advantage4{
+    background-color: #0cbdf580;
+    width: 400px;
+    padding: 20px;
+    height: 120px;
+    margin: 10px;
+    border: none;
+    border-radius: 25px;
 }
 
