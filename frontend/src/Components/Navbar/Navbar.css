@@ -30,6 +30,7 @@
 
 .nav-links li {
   padding: 5px;
+  cursor: pointer;
 }
 
 .user {

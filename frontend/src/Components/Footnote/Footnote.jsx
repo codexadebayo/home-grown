@@ -1,5 +1,6 @@
 import React from "react";
 import "./Footnote.css";
+import Reviews from "../Reviews/Reviews";
 
 const Footnote = () => {
   return (
@@ -11,6 +12,7 @@ const Footnote = () => {
         <li>Community</li>
         <li>Farming Programmes</li>
       </ul>
+      <Reviews/> 
     </div>
   );
 };

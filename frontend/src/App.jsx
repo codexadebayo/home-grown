@@ -1,21 +1,24 @@
 import "./App.css";
 
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes} from "react-router-dom";
 
 import Footnote from "./Components/Footnote/Footnote";
 import Navbar from "./Components/Navbar/Navbar";
 import HomePage from "./Pages/HomePage";
 import About from "./Pages/About";
-import Contact from "./Pages/Contact";
+import Farms from "./Pages/Farms";
+import Market from "./Pages/Market";
+
 
 function App() {
   return (
     <div>
       <Navbar />
       <Routes>
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/farms" element={<Farms />} />
+        <Route path="/market" element={<Market/>} />
       </Routes>
       <Footnote />
     </div>

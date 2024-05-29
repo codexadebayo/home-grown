@@ -1,0 +1,58 @@
+.banner3{
+    margin: 5px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    height: 600px;
+    background: linear-gradient(180deg, rgba(85, 165, 194, 0.9), rgba(124, 226, 188, 0.9), rgba(240, 185, 229, 0.9));
+}
+ .background{
+    font-family: Arial, sans-serif;
+    height: 600px;
+    width: 100%;
+    background-image: url('../../assets/woman1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #283618;
+    font-size: 48px;
+    text-shadow: 
+        -1px -1px 0 #fff, 
+         1px -1px 0 #fff, 
+        -1px  1px 0 #fff, 
+         1px  1px 0 #fff;
+         gap: 56px;
+ }
+
+ .bannerleft{
+    padding-right: 0px;
+    margin-right: 0px;
+    padding-left: 25px;
+ }
+ 
+
+ 
+ 
+
+
+
+/* 
+.bannerleft{
+    padding-right: 30px;
+    display: flex;
+    width: 50%;
+    height: 520px;
+    object-fit: contain;
+
+}
+
+.bannerright{
+    padding-right: 30px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    object-fit: contain;
+} */

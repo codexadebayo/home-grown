@@ -1,0 +1,11 @@
+.barns{
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(135deg, #a8e063, #56ab2f);
+    height: 500px;
+    border: none;
+    border-radius: 24px;
+    margin-top: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+}
