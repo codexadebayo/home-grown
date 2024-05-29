@@ -21,7 +21,7 @@ const Navbar = () => {
           <li><Link style={{textDecoration:'none', color:'#ffffff'}} to='/about'>About</Link></li>
           <li>Contact</li>
           <li><Link style={{textDecoration:'none', color:'#ffffff'}} to='/farms'>Farms</Link></li>
-          <li>Market</li>
+          <li><Link style={{textDecoration:'none', color:'#ffffff'}} to='/market'>Market</Link></li>
         </ul>
       </div>
       <div className="user">

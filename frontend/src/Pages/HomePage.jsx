@@ -12,7 +12,6 @@ const HomePage = () => {
       <Subscription />
       <LinkMenu />
       <Produce />
-      <Reviews/>
     </div>
   );
 };
