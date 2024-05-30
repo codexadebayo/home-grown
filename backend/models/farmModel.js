@@ -24,6 +24,8 @@ const farmSchema = mongoose.Schema({
             type: String,
             required: true,
         }
+    }, {
+        timestamps: true,
     }],
     bio: {
         type: String,
@@ -44,6 +46,10 @@ const farmSchema = mongoose.Schema({
     isVerified: {
         type: Boolean,
         default: false,
+    },
+    followers: {
+        type: [String],
+        default: []
     }
     
 }, {

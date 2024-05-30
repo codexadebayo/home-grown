@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const farmerSchema = mongoose.Schema({
-    firstName: {
+    firstname: {
       type: String,
       required: true,
     },
-    lastName: {
+    lastname: {
       type: String,
       default: "",
     },

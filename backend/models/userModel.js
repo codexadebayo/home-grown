@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const userSchema = mongoose.Schema({
-  firstName: {
+  firstname: {
     type: String,
     required: true,
   },
-  lastName: {
+  lastname: {
     type: String,
     default: "",
   },
@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema({
   },
   email: {
     type: String,
-    default: "",
+    required: true,
     unique: true,
   },
   active: {
@@ -44,6 +44,10 @@ const userSchema = mongoose.Schema({
     minLength: 6,
     required: true
   },
+  following: {
+    type: [String],
+    default: []
+  },
   tier:{
     type: String,
     default:'user',
@@ -56,4 +60,4 @@ const userSchema = mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 
-export default {Farmer, User}
+export default User
