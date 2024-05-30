@@ -4,6 +4,8 @@ import connectDB from "./db/connectDB.js";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
 import farmerRouter from "./routes/farmerRoutes.js";
+import farmRouter from "./routes/farmRoutes.js";
+
 
 
 dotenv.config();
@@ -21,6 +23,7 @@ app.use(cookieParser());
 
 app.use('/api', userRouter)
 app.use('/api', farmerRouter)
+app.use('/api', farmRouter)
 
 
 

@@ -7,6 +7,10 @@ const farmSchema = mongoose.Schema({
         ref: 'Farmer',
         required: true,
     }, 
+    farmName:{
+        type: String,
+        required: true
+    },
     produce:[{
         pricePerUnit: {
             type: String,
@@ -37,7 +41,7 @@ const farmSchema = mongoose.Schema({
     },
     profileVid:{
         type:String,
-        default:''
+        default:'',
     },
     location: {
         type: String,
