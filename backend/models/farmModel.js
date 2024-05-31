@@ -30,10 +30,11 @@ const farmSchema = mongoose.Schema({
         }
     }, {
         timestamps: true,
-    }],
+    },],
     bio: {
         type: String,
         maxLength: 600,
+        default: "",
     },
     profilePic:{
         type: String,
@@ -45,7 +46,7 @@ const farmSchema = mongoose.Schema({
     },
     location: {
         type: String,
-        required: true,
+        default: '',
     },
     isVerified: {
         type: Boolean,

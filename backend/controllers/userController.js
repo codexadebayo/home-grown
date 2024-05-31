@@ -1,6 +1,7 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import generateUserTokenAndSetCookie from "../utils/helpers/generateUserTokenAndSetCookies.js";
+import Farm from "../models/farmModel.js";
 
 const signupUser = async (req, res) => {
   try {
@@ -47,26 +48,66 @@ const signupUser = async (req, res) => {
   }
 };
 
-const loginUser = async (req, res)=>{
+const loginUser = async (req, res) => {
   try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+    const verifyPassword = await bcrypt.compare(password, user?.password || "");
 
-    const {username, password} = req.body;
-    const user = await User.findOne({username});
-    const verifyPassword = await bcrypt.compare(password, user?.password ||"");
-
-    if (!user || !verifyPassword){
-      return res.status(400).json({message: "Invalid user credentials"})
-    };
+    if (!user || !verifyPassword) {
+      return res.status(400).json({ message: "Invalid user credentials" });
+    }
 
     generateUserTokenAndSetCookie(user._id, res);
 
-    res.status(200).json({message: "User successfully logged in"})
-    
+    res.status(200).json({ message: "User successfully logged in" });
   } catch (err) {
-    res.status(500).json({message:"Error in loginUser"})
+    res.status(500).json({ message: "Error in loginUser" });
     console.log("Error", err.message);
-    
   }
-}
+};
 
-export { signupUser, loginUser };
+const logoutUser = async (req, res) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 1 });
+    res.status(200).json({ message: "User logged out successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Unable to log out user");
+  }
+};
+const followUnfollowFarm = async (req, res) => {
+  try {
+    const { farmId } = req.params; //
+    const farm = await Farm.findById(farmId); //
+    const user = await User.findById(req.user._id); //user object in middleware 
+    if (farmId === req.user._id)
+      return res
+        .status(400)
+        .json({ message: "Invalid user action. Can not follow farm" });
+    if (!farm || !user)
+      return res.status(400).json({ message: "User or Farmer not found" });
+
+    const isFollowing = user.following.includes(farm);
+    if (isFollowing) {
+      
+      //unfollow farm
+      await User.findByIdAndUpdate(req.user._id, {$pull: {following: farmId}});
+      await Farm.findByIdAndUpdate(farmId, {$pull:{ followers: req.user._id }});
+      return res.status(200).json({message: "Farm unfollowed successfully"})
+
+    } else { 
+
+      //follow farm
+      await User.findByIdAndUpdate(req.user._id, {$push: {following: req.user._id}})
+      await Farm.findByIdAndUpdate(farmId, {$push: {followers: req.user._id}})
+      console.log("follow farm");
+      return res.status(200).json({message: "Farm followed successfully"})
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error followUnfollow farm");
+  }
+};
+
+export { signupUser, loginUser, logoutUser, followUnfollowFarm };

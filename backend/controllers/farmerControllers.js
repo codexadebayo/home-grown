@@ -43,7 +43,7 @@ const signupFarmer = async (req, res) => {
 const loginFarmer = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const farmer = await Farmer.findOne({username});
+    const farmer = await Farmer.findOne({ username });
     const verifyPassword = await bcrypt.compare(
       password,
       farmer?.password || ""
@@ -60,5 +60,26 @@ const loginFarmer = async (req, res) => {
     console.log("Error in loginFarmer", err);
   }
 };
+const logoutFarmer = async (req, res) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 1 });
+    res.status(200).json({ message: "Farmer logged out successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Unable to log out user");
+  }
+};
 
-export { signupFarmer, loginFarmer };
+const createFarm = async (req, res) =>{
+
+  try {
+    const {}= req.body;
+
+    
+  } catch (err) {
+    res.status(500).json({message: "Error in creating farm"})
+    
+  }
+
+}
+export { signupFarmer, loginFarmer, logoutFarmer, createFarm };
