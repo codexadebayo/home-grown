@@ -80,7 +80,7 @@ const followUnfollowFarm = async (req, res) => {
   try {
     const { farmId } = req.params; //
     const farm = await Farm.findById(farmId); //
-    const user = await User.findById(req.user._id); //user object in middleware 
+    const user = await User.findById(req.user._id); //user object in middleware
     if (farmId === req.user._id)
       return res
         .status(400)
@@ -88,21 +88,25 @@ const followUnfollowFarm = async (req, res) => {
     if (!farm || !user)
       return res.status(400).json({ message: "User or Farmer not found" });
 
-    const isFollowing = user.following.includes(farm);
+    const isFollowing = user.following.includes(farmId);
     if (isFollowing) {
-      
       //unfollow farm
-      await User.findByIdAndUpdate(req.user._id, {$pull: {following: farmId}});
-      await Farm.findByIdAndUpdate(farmId, {$pull:{ followers: req.user._id }});
-      return res.status(200).json({message: "Farm unfollowed successfully"})
-
-    } else { 
-
+      await User.findByIdAndUpdate(req.user._id, {
+        $pull: { following: farmId },
+      });
+      await Farm.findByIdAndUpdate(farmId, {
+        $pull: { followers: req.user._id },
+      });
+      return res.status(200).json({ message: "Farm unfollowed successfully" });
+    } else {
       //follow farm
-      await User.findByIdAndUpdate(req.user._id, {$push: {following: req.user._id}})
-      await Farm.findByIdAndUpdate(farmId, {$push: {followers: req.user._id}})
-      console.log("follow farm");
-      return res.status(200).json({message: "Farm followed successfully"})
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: { following: farmId },
+      });
+      await Farm.findByIdAndUpdate(farmId, {
+        $push: { followers: req.user._id },
+      });
+      return res.status(200).json({ message: "Farm followed successfully" });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -110,4 +114,56 @@ const followUnfollowFarm = async (req, res) => {
   }
 };
 
-export { signupUser, loginUser, logoutUser, followUnfollowFarm };
+const updateUserProfile = async (req, res) => {
+  try {
+    const {
+      firstname,
+      lastname,
+      username,
+      address,
+      birthday,
+      email,
+      profilePic,
+      password,
+    } = req.body;
+
+    const userId = req.user._id;
+
+    let user = await User.findById(userId);
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    if(req.params.username !== user.username) return res.status(400).json({message: "User is not authorized to edit profile"});
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      user.password = hashedPassword;
+    }
+
+    user.firstname = firstname || user.firstname;
+    user.lastname = lastname || user.lastname;
+    user.username = username || user.username;
+    user.address = address || user.address;
+    user.birthday = birthday || user.birthday;
+    user.email = email || user.email;
+    user.profilePic = profilePic || user.profilePic;
+
+    await user.save();
+
+    res.status(200).json({
+      message: "User profile updated successfully",
+      user,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error updating user");
+  }
+};
+
+export {
+  signupUser,
+  loginUser,
+  logoutUser,
+  followUnfollowFarm,
+  updateUserProfile,
+};

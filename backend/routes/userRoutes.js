@@ -4,6 +4,7 @@ import {
   loginUser,
   logoutUser,
   signupUser,
+  updateUserProfile,
 } from "../controllers/userController.js";
 import protectUserRoute from "../utils/middleware/protectUserRoute.js";
 
@@ -17,6 +18,12 @@ userRouter.post("/users/signup", signupUser);
 userRouter.post("/users/login", loginUser);
 userRouter.post("/users/logout", logoutUser);
 userRouter.post("/users/follow/:farmId", protectUserRoute, followUnfollowFarm);
+userRouter.put("/users/profile/:username", protectUserRoute, updateUserProfile);
+
+
+
+
+
 userRouter.get("/users/test", protectUserRoute, (req, res) => {
   console.log("protect user route is working");
 });

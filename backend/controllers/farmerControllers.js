@@ -70,16 +70,46 @@ const logoutFarmer = async (req, res) => {
   }
 };
 
-const createFarm = async (req, res) =>{
-
+const updateFarmerProfile = async (req, res) => {
   try {
-    const {}= req.body;
+    const {
+      firstname,
+      lastname,
+      username,
+      address,
+      birthday,
+      email,
+      password,
+      profilePic,
+    } = req.body;
+    let farmer = await Farmer.findById(req.farmer._id);
+    if (!farmer)
+      return res.status(400).json({ message: "farmer is not found" });
+    if (farmer.username !== req.params.username)
+      return res
+        .status(400)
+        .json({
+          message: "Permission denied to edit another farmer's profile",
+        });
+    if (password) {
+      const salt = await bcrypt.gensalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      password = hashedPassword;
+    }
 
-    
-  } catch (err) {
-    res.status(500).json({message: "Error in creating farm"})
-    
-  }
+    farmer.firstname = firstname || farmer.firstname;
+    farmer.lastname = lastname || farmer.lastname;
+    farmer.username = username || farmer.username;
+    farmer.address = address || farmer.address;
+    farmer.birthday = birthday || farmer.birthday;
+    farmer.email = email || farmer.email;
+    farmer.profilePic = profilePic || farmer.profilePic;
 
-}
-export { signupFarmer, loginFarmer, logoutFarmer, createFarm };
+    farmer = await farmer.save()
+
+    return res.status(200).json({message: "farmer updated successfully", farmer})
+
+  } catch (error) {}
+};
+
+export { signupFarmer, loginFarmer, logoutFarmer, updateFarmerProfile };

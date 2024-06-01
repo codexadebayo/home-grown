@@ -27,6 +27,10 @@ const userSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
+  profilePic:{
+    type: String,
+    default: ""
+  },
   active: {
     type: Boolean,
     default: true,
