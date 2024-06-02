@@ -1,8 +1,8 @@
 import Farmer from "../../models/farmerModel.js";
 import jwt  from "jsonwebtoken";
 
-//don't touch
 
+//don't touch
 const protectFarmerRoute = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;

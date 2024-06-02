@@ -2,6 +2,29 @@ import Farmer from "../models/farmerModel.js";
 import bcrypt from "bcryptjs";
 import generateFarmerTokenAndSetCookie from "../utils/helpers/generateFarmerTokenAndSetCookie.js";
 
+const getFarmer = async (req, res) => {
+  try {
+    const farmer = await Farmer.findOne(req.params.id).select("-password");
+    if (!farmer) return res.status(400).json({ message: "Cannot find farmer" });
+    return res.status(200).json({ message: farmer });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error in getFarmer");
+  }
+};
+
+const getAllFarmers = async (req, res) => {
+  try {
+    const farmers = await Farmer.find().select("-password");
+    if (!farmers)
+      return res.status(400).json({ message: "Cannot find farmers" });
+    return res.status(200).json({ message: farmers });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error in getAllFarmers");
+  }
+};
+
 const signupFarmer = async (req, res) => {
   try {
     const { username, firstname, lastname, email, password } = req.body;
@@ -60,6 +83,7 @@ const loginFarmer = async (req, res) => {
     console.log("Error in loginFarmer", err);
   }
 };
+
 const logoutFarmer = async (req, res) => {
   try {
     res.cookie("jwt", "", { maxAge: 1 });
@@ -86,11 +110,9 @@ const updateFarmerProfile = async (req, res) => {
     if (!farmer)
       return res.status(400).json({ message: "farmer is not found" });
     if (farmer.username !== req.params.username)
-      return res
-        .status(400)
-        .json({
-          message: "Permission denied to edit another farmer's profile",
-        });
+      return res.status(400).json({
+        message: "Permission denied to edit another farmer's profile",
+      });
     if (password) {
       const salt = await bcrypt.gensalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
@@ -105,11 +127,37 @@ const updateFarmerProfile = async (req, res) => {
     farmer.email = email || farmer.email;
     farmer.profilePic = profilePic || farmer.profilePic;
 
-    farmer = await farmer.save()
+    farmer = await farmer.save();
 
-    return res.status(200).json({message: "farmer updated successfully", farmer})
-
+    return res
+      .status(200)
+      .json({ message: "farmer updated successfully", farmer });
   } catch (error) {}
 };
 
-export { signupFarmer, loginFarmer, logoutFarmer, updateFarmerProfile };
+const deleteFarmer = async (req, res) => {
+  try {
+    const farmer = await Farmer.findById(req.params.farmerId);
+    if (!farmer) return res.status(400).json({ message: "farmId not exist" });
+
+    if (req.farmer._id !== farmer._id)
+      return res.status(400).json({ message: "Unauthorized user" });
+
+    await Farmer.findAndDelete(farmer);
+    return res.status(202).json({ message: " successfully deleted farmer" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error in deleteFarmer");
+  }
+};
+
+export {
+  signupFarmer,
+  loginFarmer,
+  logoutFarmer,
+  updateFarmerProfile,
+  getFarmer,
+  getAllFarmers,
+  deleteFarmer,
+
+};

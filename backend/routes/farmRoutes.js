@@ -1,10 +1,20 @@
 import express from "express";
-import { createFarm, updateFarm } from "../controllers/farmControllers.js";
+import {
+  createFarm,
+  deleteFarm,
+  getAllFarms,
+  getFarm,
+  updateFarm,
+} from "../controllers/farmControllers.js";
 import protectFarmerRoute from "../utils/middleware/protectFarmerRoute.js";
+import farmerRouter from "./farmerRoutes.js";
 
 const farmRoutes = express.Router();
 
-farmRoutes.post("/farms/create", protectFarmerRoute, createFarm);
-farmRoutes.put("/farms/profile/:farmId", protectFarmerRoute, updateFarm);
+farmRoutes.get("", getAllFarms);
+farmRoutes.get("/:farmName", getFarm);
+farmRoutes.post("/create", protectFarmerRoute, createFarm);
+farmRoutes.put("/profile/:farmId", protectFarmerRoute, updateFarm);
+farmerRouter.delete("/profile/:farmId", protectFarmerRoute, deleteFarm);
 
 export default farmRoutes;

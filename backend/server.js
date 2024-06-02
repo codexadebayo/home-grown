@@ -5,18 +5,24 @@ import cookieParser from "cookie-parser";
 import userRouter from "./routes/userRoutes.js";
 import farmerRouter from "./routes/farmerRoutes.js";
 import farmRouter from "./routes/farmRoutes.js";
+import postRouter from "./routes/postRoutes.js";
 
 dotenv.config();
+
 connectDB();
+
 const app = express();
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(5000, () => console.log("server started at" + ` ${PORT}`));
 
 app.use(express.json()); //To parse JSON to our response .body
-app.use(express.urlencoded({ extended: true })); //To pass form data in the body
+app.use(express.urlencoded({ extended: true })); //To pass form data in the request body
 app.use(cookieParser());
 
-app.use("/api", userRouter);
-app.use("/api", farmerRouter);
-app.use("/api", farmRouter);
+//app routes
+app.use("/api/users", userRouter);
+app.use("/api/farmers", farmerRouter);
+app.use("/api/farms", farmRouter);
+app.use("/api/posts", postRouter)

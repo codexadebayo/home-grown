@@ -7,6 +7,10 @@ const postSchema = mongoose.Schema({
         ref: 'User',
         required: true
     },
+    title: {
+        type: String,
+        default:"",
+    },
     text:{
         type: String,
         maxLength: 600 
@@ -33,9 +37,6 @@ const postSchema = mongoose.Schema({
             farmName:{
                 type: String,
             }
-
-
-            
         }, {timestamps:true}
     ],
 

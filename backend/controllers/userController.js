@@ -3,6 +3,20 @@ import bcrypt from "bcryptjs";
 import generateUserTokenAndSetCookie from "../utils/helpers/generateUserTokenAndSetCookies.js";
 import Farm from "../models/farmModel.js";
 
+const getUser = async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username }).select(
+      "-password"
+    );
+    if (!user) return res.status(400).json({ message: "User not found" });
+
+    res.status(200).json({ message: user });
+  } catch (err) {
+    res.status(500).json({message: err.message});
+    console.log("Error in getUserProfile");
+  }
+};
+
 const signupUser = async (req, res) => {
   try {
     const { firstname, lastname, username, password, email } = req.body;
@@ -76,6 +90,7 @@ const logoutUser = async (req, res) => {
     console.log("Unable to log out user");
   }
 };
+
 const followUnfollowFarm = async (req, res) => {
   try {
     const { farmId } = req.params; //
@@ -132,7 +147,10 @@ const updateUserProfile = async (req, res) => {
     let user = await User.findById(userId);
     if (!user) return res.status(400).json({ message: "User not found" });
 
-    if(req.params.username !== user.username) return res.status(400).json({message: "User is not authorized to edit profile"});
+    if (req.params.username !== user.username)
+      return res
+        .status(400)
+        .json({ message: "User is not authorized to edit profile" });
 
     if (password) {
       const salt = await bcrypt.genSalt(10);
@@ -166,4 +184,5 @@ export {
   logoutUser,
   followUnfollowFarm,
   updateUserProfile,
+  getUser,
 };
