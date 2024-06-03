@@ -3,8 +3,8 @@ import User from "../models/userModel.js";
 
 const getAllPosts = async (req, res) => {
   try {
-    const [posts] = await Post.find();
-    res.status(200).json({ message: posts });
+    const posts = await Post.find();
+    res.status(200).json({ message: { posts } });
   } catch (err) {
     res.status(500).json({ message: err.message });
     console.log("Error in getAllPosts");
@@ -29,13 +29,15 @@ const getPost = async (req, res) => {
 
 const getUserPosts = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.params.userId;
     const user = await User.findById(userId);
     if (!user)
       return res
         .status(400)
-        .json({ message: "User not found. No posts for notusers" });
-    const [posts] = await Post.findOne({ userId: userId });
+        .json({ message: "User not found. No posts for nonusers" });
+    const posts = await user.posts;
+    res.status(200).json({ message: posts });
+    return;
   } catch (err) {
     res.status(500).json({ message: err.message });
     console.log("Error in getUserPosts");
@@ -51,7 +53,7 @@ const createPost = async (req, res) => {
     //TODO: Delete previous post table to update.
 
     const { title, body } = req.body;
-    const userId = req.user._id; //I can add a userId parameter to verify user but is that necessary?
+    const userId = req.user._id;
 
     if (!body) return res.status(400).json({ message: "Post saved in trash" });
     if (!userId)
@@ -62,9 +64,13 @@ const createPost = async (req, res) => {
     if (!user) return res.status(400).json({ message: "User unknown" });
 
     const maxLength = 600;
-    const bodyLength = body.length();
-    if (bodyLength > maxLength) return res.status(400).json({message: `Post should have fewer characters -${bodyLength-600}.`})
-    maxLength
+    if (body.length > maxLength) {
+      res.status(400).json({
+        message: `Post should have fewer characters -${bodyLength - 600}.`,
+      });
+      return;
+    }
+
     const newPost = await new Post({
       title: title,
       text: body,
@@ -73,9 +79,11 @@ const createPost = async (req, res) => {
     await newPost.save();
 
     if (newPost) {
+      user.posts.push(newPost);
+      await user.save();
       res.status(201).json({ message: newPost });
       console.log(
-        "Your post has been successfully sent. Hold on for farmers to reachout"
+        "Your post has been successfully sent. Hold on for farmers to reach out"
       );
       return;
     } else {
@@ -87,6 +95,38 @@ const createPost = async (req, res) => {
   }
 };
 
-// delete post comes with rules.
+const deletePost = async (req, res) => {
+  try {
+    // Find the post by ID
+    const post = await Post.findById(req.params.postId);
+    if (!post) {
+      return res.status(400).json({ message: "Requested post not found" });
+    }
 
-export { getAllPosts, createPost, getPost, getUserPosts };
+    // Check if the user is authorized to delete the post
+    if (post.postedBy.toString() !== req.user._id.toString()) {
+      return res
+        .status(400)
+        .json({ message: "User is not authorized to delete this post" });
+    }
+
+    // Delete the post
+    await Post.findByIdAndDelete(req.params.postId);
+
+    // Find the user by ID and remove the post from the user's posts array
+    const user = await User.findById(req.user._id);
+    user.posts.pull(req.params.postId);
+
+    // Save the updated user document
+    await user.save();
+
+    // Send a success response
+    return res.status(200).json({ message: "Post deleted successfully" });
+  } catch (err) {
+    // Handle any errors
+    res.status(500).json({ message: err.message });
+    console.log("Error in deletePost:", err);
+  }
+};
+
+export { createPost, getAllPosts, getPost, getUserPosts, deletePost };
