@@ -1,5 +1,7 @@
+import Farmer from "../models/farmerModel.js";
 import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
+import Farm from "../models/farmModel.js";
 
 const getAllPosts = async (req, res) => {
   try {
@@ -95,6 +97,39 @@ const createPost = async (req, res) => {
   }
 };
 
+const replyPost = async (req, res) => {
+  try {
+    const { text } = req.body;
+    const postId = req.params.id;
+    if (!text) {
+      return res.status(400).json({ message: "Reply can not be blank" });
+    }
+    const post = await Post.findById(postId);
+    console.log(post);
+    if (!post) return res.status(400).json({ message: "Post does not exist" });
+    const farmer = await Farmer.findById(req.farmer._id);
+    if (!farmer)
+      return res.status(400).json({ message: "Farmer does not exist" });
+    const farm = await Farm.findOne({ farmerId: req.farmer._id });
+    if (!farm)
+      return res
+        .status(400)
+        .json({ message: "Farmer must own a farm to reply." });
+    const farmProfilePic = farm.profilePic;
+    const isFarmVerified = farm.isVerified;
+    const farmName = farm.farmName;
+    const farmId = farm._id;
+    const reply = { farmName, isFarmVerified, text, farmProfilePic, farmId };
+
+    post.replies.push(reply);
+    await post.save();
+    res.status(200).json({ message: "reply sent successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    console.log("Error in reply post");
+  }
+};
+
 const deletePost = async (req, res) => {
   try {
     // Find the post by ID
@@ -115,7 +150,8 @@ const deletePost = async (req, res) => {
 
     // Find the user by ID and remove the post from the user's posts array
     const user = await User.findById(req.user._id);
-    user.posts.pull(req.params.postId);
+
+    user.posts.pull(post);
 
     // Save the updated user document
     await user.save();
@@ -129,4 +165,11 @@ const deletePost = async (req, res) => {
   }
 };
 
-export { createPost, getAllPosts, getPost, getUserPosts, deletePost };
+export {
+  createPost,
+  getAllPosts,
+  getPost,
+  getUserPosts,
+  replyPost,
+  deletePost,
+};

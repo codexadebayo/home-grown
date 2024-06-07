@@ -11,9 +11,10 @@ import farmerRouter from "./farmerRoutes.js";
 
 const farmRoutes = express.Router();
 
-farmRoutes.get("", getAllFarms);
+farmRoutes.get("/", getAllFarms);
 farmRoutes.get("/:farmName", getFarm);
-farmRoutes.post("/create", protectFarmerRoute, createFarm);
+farmRoutes.post("/", protectFarmerRoute, createFarm);
+farmRoutes.post("/produce", )
 farmRoutes.put("/profile/:farmId", protectFarmerRoute, updateFarm);
 farmerRouter.delete("/profile/:farmId", protectFarmerRoute, deleteFarm);
 

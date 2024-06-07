@@ -6,6 +6,8 @@ import userRouter from "./routes/userRoutes.js";
 import farmerRouter from "./routes/farmerRoutes.js";
 import farmRouter from "./routes/farmRoutes.js";
 import postRouter from "./routes/postRoutes.js";
+import postFeedRouter from "./routes/feedRoutes.js";
+import produceRouter from "./routes/produceRouter.js";
 
 dotenv.config();
 
@@ -25,4 +27,6 @@ app.use(cookieParser());
 app.use("/api/users", userRouter);
 app.use("/api/farmers", farmerRouter);
 app.use("/api/farms", farmRouter);
-app.use("/api/posts", postRouter)
+app.use("/api/posts", postRouter);
+app.use("/feed", postFeedRouter);
+app.use("/produce", produceRouter);

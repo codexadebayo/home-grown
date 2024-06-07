@@ -3,6 +3,12 @@
   align-items: center;
   justify-content: space-between;
   background-color: #333;
+  margin-top: 4px;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-bottom: 4px;
+  padding: 12px;
+  border-radius: 25px;
   color: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -15,8 +21,8 @@
 }
 
 .logo img {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
 }
 
 .nav-links {
